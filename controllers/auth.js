@@ -31,9 +31,10 @@ exports.signup = async (req, res, next) => {
         email: user.email,
         userId: user._id.toString(),
       },
-      "secret",
+      process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );
+    res.cookie("token", token, { httpOnly: true });
     res.status(201).json({ message: "User created", userId: user._id, token });
   } catch (err) {
     if (!err.statusCode) {
@@ -69,9 +70,10 @@ exports.login = async (req, res, next) => {
         email: loadedUser.email,
         userId: loadedUser._id.toString(),
       },
-      "secret",
+      process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );
+    res.cookie("token", token, { httpOnly: true });
     res.status(200).json({ token: token, userId: loadedUser._id.toString() });
   } catch (err) {
     if (!err.statusCode) {
