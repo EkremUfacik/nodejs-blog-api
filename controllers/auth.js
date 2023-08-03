@@ -34,7 +34,13 @@ exports.signup = async (req, res, next) => {
       process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );
-    res.cookie("token", token, { secure: true, httpOnly: true });
+    res.cookie("token", token, {
+      secure: true,
+      httpOnly: true,
+      sameSite: "none",
+      maxAge: 3600000,
+      path: "/",
+    });
     res.status(201).json({ message: "User created", userId: user._id, token });
   } catch (err) {
     if (!err.statusCode) {
@@ -73,7 +79,13 @@ exports.login = async (req, res, next) => {
       process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );
-    res.cookie("token", token, { httpOnly: true });
+    res.cookie("token", token, {
+      secure: true,
+      httpOnly: true,
+      sameSite: "none",
+      maxAge: 3600000,
+      path: "/",
+    });
     res.status(200).json({ token: token, userId: loadedUser._id.toString() });
   } catch (err) {
     if (!err.statusCode) {
