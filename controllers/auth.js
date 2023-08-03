@@ -34,7 +34,7 @@ exports.signup = async (req, res, next) => {
       process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );
-    res.cookie("token", token, { httpOnly: true });
+    res.cookie("token", token, { secure: true, httpOnly: true });
     res.status(201).json({ message: "User created", userId: user._id, token });
   } catch (err) {
     if (!err.statusCode) {
