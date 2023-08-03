@@ -44,10 +44,15 @@ app.use("/images", express.static(path.join(__dirname, "images")));
 app.use(cookieParser());
 
 app.use((req, res, next) => {
-  res.setHeader(
-    "Access-Control-Allow-Origin",
-    "https://nextjs-blog-eu.netlify.app"
-  );
+  const allowedOrigins = [
+    "https://nextjs-blog-eu.netlify.app",
+    "http://localhost:3000",
+  ];
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+  }
+
   res.setHeader(
     "Access-Control-Allow-Methods",
     "OPTIONS, GET, POST, PUT, PATCH, DELETE"
