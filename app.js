@@ -7,6 +7,7 @@ const mongoose = require("mongoose");
 const multer = require("multer");
 const { v4: uuidv4 } = require("uuid");
 const cookieParser = require("cookie-parser");
+const cors = require("cors");
 
 const feedRoutes = require("./routes/feed");
 const authRoutes = require("./routes/auth");
