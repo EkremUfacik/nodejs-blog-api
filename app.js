@@ -15,6 +15,13 @@ const app = express();
 
 const PORT = process.env.PORT || 8080;
 
+app.use(
+  cors({
+    origin: "https://nextjs-blog-eu.netlify.app",
+    credentials: true,
+  })
+);
+
 const fileStorage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "images");
@@ -43,25 +50,6 @@ app.use(
 app.use("/images", express.static(path.join(__dirname, "images")));
 app.use(cookieParser());
 
-app.use((req, res, next) => {
-  const allowedOrigins = [
-    "https://nextjs-blog-eu.netlify.app",
-    "http://localhost:3000",
-  ];
-  const origin = req.headers.origin;
-  if (allowedOrigins.includes(origin)) {
-    res.setHeader("Access-Control-Allow-Origin", origin);
-  }
-
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "OPTIONS, GET, POST, PUT, PATCH, DELETE"
-  );
-  res.setHeader("Access-Control-Allow-Credentials", true);
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  next();
-});
-
 app.use("/feed", feedRoutes);
 app.use("/auth", authRoutes);
 
@@ -76,6 +64,6 @@ mongoose
   .connect(process.env.MONGODB_URI)
   .then((result) => {
     app.listen(PORT);
-    console.log("Connected");
+    console.log("Connected", PORT);
   })
   .catch((err) => console.log(err));
