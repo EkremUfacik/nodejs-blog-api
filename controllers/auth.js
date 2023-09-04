@@ -37,9 +37,7 @@ exports.signup = async (req, res, next) => {
     res.cookie("token", token, {
       secure: true,
       httpOnly: true,
-      sameSite: "none",
       maxAge: 3600000,
-      path: "/",
     });
     res.status(201).json({ message: "User created", userId: user._id, token });
   } catch (err) {
@@ -82,9 +80,7 @@ exports.login = async (req, res, next) => {
     res.cookie("token", token, {
       secure: true,
       httpOnly: true,
-      sameSite: "none",
       maxAge: 3600000,
-      path: "/",
     });
     res.status(200).json({ token: token, userId: loadedUser._id.toString() });
   } catch (err) {
