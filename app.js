@@ -18,7 +18,7 @@ const PORT = process.env.PORT || 8080;
 
 app.use(
   cors({
-    origin: "https://nextjs-blog-eu.netlify.app",
+    origin: ["http://localhost:3000", "https://nextjs-blog-eu.netlify.app"],
     credentials: true,
   })
 );
