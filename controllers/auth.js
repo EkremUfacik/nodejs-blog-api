@@ -61,6 +61,7 @@ exports.login = async (req, res, next) => {
       error.statusCode = 401;
       throw error;
     }
+    loadedUser = user;
     const isEqual = await bcrypt.compare(password, user.password);
 
     if (!isEqual) {
@@ -70,8 +71,8 @@ exports.login = async (req, res, next) => {
     }
     const token = jwt.sign(
       {
-        email: user.email,
-        userId: user._id.toString(),
+        email: loadedUser.email,
+        userId: loadedUser._id.toString(),
       },
       process.env.JWT_SECRET,
       { expiresIn: "1h" }
