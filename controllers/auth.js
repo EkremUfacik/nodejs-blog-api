@@ -78,7 +78,7 @@ exports.login = async (req, res, next) => {
       { expiresIn: "1h" }
     );
     res.cookie("token", token, {
-      secure: true,
+      secure: false,
       httpOnly: true,
       maxAge: 3600000,
     });
