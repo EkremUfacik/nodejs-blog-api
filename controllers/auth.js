@@ -61,7 +61,6 @@ exports.login = async (req, res, next) => {
       error.statusCode = 401;
       throw error;
     }
-    loadedUser = user;
     const isEqual = await bcrypt.compare(password, user.password);
 
     if (!isEqual) {
@@ -71,18 +70,18 @@ exports.login = async (req, res, next) => {
     }
     const token = jwt.sign(
       {
-        email: loadedUser.email,
-        userId: loadedUser._id.toString(),
+        email: user.email,
+        userId: user._id.toString(),
       },
-      process.env.JWT_SECRET,
-      { expiresIn: "1h" }
+      process.env.JWT_SECRET
+      // { expiresIn: "1h" }
     );
     res.cookie("token", token, {
-      secure: false,
+      // secure: false,
       httpOnly: true,
       // maxAge: 93600000,
     });
-    res.status(200).json({ token: token, userId: loadedUser._id.toString() });
+    res.status(200).json({ token: token, userId: user._id.toString() });
   } catch (err) {
     if (!err.statusCode) {
       err.statusCode = 500;

@@ -22,6 +22,8 @@ app.use(
     credentials: true,
   })
 );
+app.use(bodyParser.json());
+app.use(cookieParser());
 
 const fileStorage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -44,12 +46,10 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
-app.use(bodyParser.json());
 app.use(
   multer({ storage: fileStorage, fileFilter: fileFilter }).single("image")
 );
 app.use("/images", express.static(path.join(__dirname, "images")));
-app.use(cookieParser());
 
 app.use("/feed", feedRoutes);
 app.use("/auth", authRoutes);
