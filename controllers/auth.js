@@ -80,7 +80,7 @@ exports.login = async (req, res, next) => {
     res.cookie("token", token, {
       secure: false,
       httpOnly: true,
-      maxAge: 3600000,
+      // maxAge: 93600000,
     });
     res.status(200).json({ token: token, userId: loadedUser._id.toString() });
   } catch (err) {
